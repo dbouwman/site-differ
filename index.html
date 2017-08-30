@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Site Differ</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+  <style>
+  #site-list {
+    list-style:none;
+    padding:0;
+    height: 800px;
+    overflow: scroll;
+  }
+  img {
+    width: 100%;
+  }
+  </style>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3">
+        <h2>Sites</h2>
+      </div>
+      <div class="col-sm-9">
+        <h2 ><a href="#" id="site" target="_blank"></a></h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3">
+        <ul id="site-list">
+        </ul>
+      </div>
+      <div class="col-sm-3">
+        <h4>Prod <a id="url1" href="" target="_blank"class="pull-right">View</a></h4>
+        <img id="url1Img">
+      </div>
+      <div class="col-sm-3">
+        <h4>Updated <a id="url2" href="" target="_blank" class="pull-right">View</a></h4>
+        <img id="url2Img">
+      </div>
+      <div class="col-sm-3">
+        <h4>Diff</h4>
+        <img id="diffImg">
+      </div>
+    </div>
+  </div>
+
+  <script>
+$.ajax({url:'tasks.json', dataType:'json'}).then(onLoad)
+
+
+function onLoad (data) {
+  // sort by name
+  data.sort((a,b) => {
+    if (a.url1 < b.url1) {
+      return -1;
+    }
+    if (a.url1 > b.url1) {
+      return 1;
+    }
+    return 0;
+  });
+  var listNodes = data.map((entry) => {
+    var li = ce('li');
+    var a = ce('a');
+    let name = entry.url1.split('//')[1];
+    a.appendChild(document.createTextNode(name));
+    a.onclick = function () { showSite(entry)};
+    li.appendChild(a);
+    return li;
+  });
+
+  // document.getElementById('site-list').append(listNodes);
+  $('#site-list').append(listNodes)
+}
+
+
+function ce (tag) {
+  return document.createElement(tag);
+}
+
+function showSite (entry) {
+  console.log(`Entry ${entry.siteId} was clicked`);
+  ['url1Img', 'url2Img', 'diffImg'].forEach((img) => {
+    let selector = `#${img}`;
+    console.log(`selector ${selector} src ${entry[img]}`);
+    $(selector).attr('src', entry[img]);
+  });
+  $('#site').text(entry.url1);
+  $('#site').attr('href', entry.url1);
+  ['url1', 'url2'].forEach((id) => {
+    let selector = `#${id}`;
+    $(selector).attr('href', entry[id])
+  })
+}
+  </script>
+</body>
+</html>

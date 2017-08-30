@@ -1,0 +1,6 @@
+images
+logs
+node_modules
+.env.aws.json
+tasks.json
+failedCssResources.json
