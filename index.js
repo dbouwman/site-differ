@@ -160,9 +160,9 @@ siteService.getSiteItems()
           imageSize: imageSize,
           url1: item.url + '/datasets',
           url2: `http://siteviewer.surge.sh/#/${item.id}/datasets`,
-          url1Img: `images/${dir}/prod-${imageSize}.png`,
-          url2Img: `images/${dir}/compare-${imageSize}.png`,
-          diffImg: `images/${dir}/diff.png`,
+          url1Img: `images/${dir}-datasets/prod-${imageSize}.png`,
+          url2Img: `images/${dir}-datasets/compare-${imageSize}.png`,
+          diffImg: `images/${dir}-datasets/diff.png`,
           owner: item.owner,
           dir: `images/${dir}-datasets`
         };
